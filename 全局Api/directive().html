@@ -5,26 +5,81 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Document</title>
+		<title>directive()</title>
 	</head>
 
 	<body>
 		<div id="app">
-			<input type="button" value="点击" />
-			<p v-changeColor="color">点击就变绿</p>
+			<input type = "button" value = "点击" @click="color='green'" />
+			<p v-test="color" v-scolor="color">点击就变绿</p>
+			<button @click="unbind">解绑v-test指令</button>
 		</div>
 		<!-- /#app -->
 
-		<script src="../vue.min.js"></script>
+		<script src="../vue.js"></script>
 		<script>
-			Vue.directive('changeColor', function (el, binding, vnode) {
-				console.log(el, binding, vnode);
+			// 自定义指令 directive()
+			// 注册全局指令
+			// 如果是注册局部指令,则组件也可以接受一个directives选项(对象)
+
+			// 定义方式一:
+			Vue.directive('test',{
+				// 触发 生命周期钩子函数,会传入以下参数
+				/**
+				 * el,指令所绑定的元素.
+				 *
+				 * binding,对象,包含自定义指令的相关信息,其中:
+				 * name是指令的名字,不包括'v-'前缀,
+				 * value是指令的参数值(是参数所代表的具体值),
+				 * expression是指令的参数,
+				 * oldValue,指令绑定的前一个值,仅在`update`和`componentUpdate`中可用,
+				 * modifiers:一个包含修饰符的对象
+				 * arg,传给指令的参数,可选
+				 *
+				 * vnode,Vue 编译生成的虚拟节点
+				 *
+				 * oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
+				 */
+				bind(el,binding,vnode){
+					console.log('-------------------------第一次绑定到元素时,只调用一次-------------------------');
+					console.log(arguments);
+					el.style[binding.expression] = binding.value;
+				},
+				inserted(){
+					// 只保证插入到父元素中,不能保证插入到文档中了
+					console.log('-------------------------被绑定元素插入父节点时调用-------------------------');
+					console.log(arguments);
+				},
+				update(el,binding,vnode){
+					console.log('-------------------------组件更新了-------------------------!');
+					console.log(arguments);
+					console.log('前一个值,oldValue: ',binding.oldValue);
+					el.style[binding.expression] = binding.value;
+				},componentUpdated(){
+					console.log('-------------------------指令所在组件的 VNode 及其子 VNode 全部更新后调用。-------------------------');
+					console.log(arguments);
+				},unbind(){
+					console.log('-------------------------只调用一次，指令与元素解绑时调用。-------------------------');
+					console.log(arguments);
+				}
+			});
+
+			// 定义方式二:
+			Vue.directive('scolor', function (el, binding, vnode) {
+				// 这里会被bind和update调用
+				console.log('scolor',el, binding, vnode);
 			});
 			const vm = new Vue({
 				el: '#app',
 				data: {
-					color: 'green'
+					color: 'red'
+				},
+				methods:{
+					unbind(){
+						this.$destroy();
+					}
 				}
+
 			})
 
 		</script>
