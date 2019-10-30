@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang = "zh" >
+<head >
+    <meta charset = "UTF-8" >
+    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
+    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
+    <title >绑定style</title >
+</head >
+<body >
+<div id="app">
+    <!--
+        对象写法:
+        color的具体属性由scolor的内容决定
+        注意,复合属性是驼峰式命名
+    -->
+    <p :style="{color:scolor,fontSize:sfont}" >内容</p >
+    <!--也可以直接绑定一个对象-->
+    <p :style="styleObj">内容</p >
+    <!--
+        数组写法:
+        将多个对象的样式,应用到同一个元素上
+    -->
+    <p :style="[styleObj,obj]" >内容</p >
+</div>
+<!-- /#app -->
+
+<script src = "../vue.js" ></script >
+<script >
+    const vm = new Vue({
+        el:'#app',
+        data:{
+            scolor:'#58c',
+            sfont:'21px',
+            styleObj:{
+                color:'red',
+                fontSize:'11px'
+            },
+            obj:{
+                background:'#58bc58'
+            }
+        }
+    })
+</script >
+</body >
+</html >

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang = "zh" >
+<head >
+    <meta charset = "UTF-8" >
+    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
+    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
+    <title >02插槽</title >
+</head >
+<body >
+<div id="app">
+    <!--子组件的<solt>被替换为父组件插入的内容-->
+    <error>父组件插入的内容</error>
+    <!--如果父组件不提供任何内容,子组件中的solt的内容会被渲染出来(后备内容)-->
+    <error></error>
+
+    <!--通过在一个template元素上使用v-slot指令提供名称,来插入具体内容-->
+    <right>
+        <template v-slot:solt1>具名插槽1的内容</template>
+        <template v-slot:solt2>具名插槽2的内容</template>
+    </right>
+
+    <!--通过v-slot:指令接受到子组件提供的插槽prop对象,并命名为obj(msg就在obj里面,default可以省略)-->
+    <!--<List><template v-slot:default="obj">{{obj.msg}}</template></List>-->
+    <!--插槽'v-slot:'还可以缩写为'#'-->
+    <List><template #default="obj">{{obj.msg}}</template></List>
+</div>
+<!-- /#app -->
+
+<script src = "../vue.min.js" ></script >
+<script >
+    Vue.config.devtools = true;
+
+    Vue.component('error',{
+        // 当渲染的时候,<solt>会被替换
+        template:`<div>不具名插槽:<slot>这是后备内容</slot></div>`
+    });
+
+    Vue.component('right',{
+        // 不具名插槽的默认name为"default"
+        // 通过name属性,区别出插槽
+        template:`<div>
+                    <div>具名插槽1:<slot name="solt1">这是后备内容1</slot></div>
+                    <div>具名插槽2:<slot name="solt2">这是后备内容2</slot></div>
+                </div>`
+    });
+
+    Vue.component('List',{
+        data(){
+            return{
+                msg:'子组件的内容'
+            }
+        },
+        // 通过绑定属性到slot上,可以让父组件访问到子组件的内容,这种特性叫插槽prop
+        template:`<p><slot :msg="msg"></slot></p>`
+    });
+
+    const vm = new Vue({
+        el:'#app'
+    })
+</script >
+</body >
+</html >

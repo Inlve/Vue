@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang = "zh" >
+<head >
+    <meta charset = "UTF-8" >
+    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
+    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
+    <title >03动态组件</title >
+</head >
+<body >
+<div id="app">
+    <!--通过绑定 is 来切换不同的组件-->
+    <!--
+        但是存在一个问题是,之前是文章2的状态,如果切换成组件1,
+        再切换回来就变成文章1了,不会继续展示我之前的选择的文章2.
+
+        这是因为,每次切换的时候,VUe都创建了一个新的component实例
+    -->
+    <input type = "button" value = "组件1" @click="com='com1'" /><input type = "button" value = "组件2" @click="com='com2'" />
+    <component :is="com"></component>
+
+    <!--
+        如果希望,切换回来,能继续展示之前的状态,
+        那么,我们可以用一个<keep-alive>包裹动态组件
+    -->
+    <input type = "button" value = "组件1" @click="comt='com1'" /><input type = "button" value = "组件2" @click="comt='com2'" />
+    <keep-alive><component :is="comt"></component></keep-alive>
+</div>
+<!-- /#app -->
+
+<script src = "../vue.js" ></script >
+<script >
+    Vue.component('com1',{
+        data(){
+          return{
+              isShow:true
+          }
+        },
+        template:`<div>
+                <h1>这是组件1</h1>
+                <input type="button" value="文章1" @click="isShow=true" /><input type="button" value="文章2" @click="isShow=false" />
+                <p v-show="isShow">文章11111111111111111111111111</p>
+                <p v-show="!isShow">文章22222222222222222222222222</p>
+            </div>`
+    });
+
+    Vue.component('com2',{
+        template:`<div>这是组件2</div>`
+    });
+    const vm= new Vue({
+        el:'#app',
+        data:{
+            com:'com1',
+            comt:'com1'
+        }
+    })
+</script >
+</body >
+</html >

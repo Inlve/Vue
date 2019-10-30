@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>01基础</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <!-- 组件可以多次复用 -->
+            <list></list>
+        </div>
+        <!-- /#app -->
+
+        <script src="../vue.min.js"></script>
+        <script>
+            Vue.config.devtools = true;
+            // 定义全局组件
+            Vue.component('list', {
+
+                // 注意data必须是通过函数返回一个对象,与Vue实例不同
+                // 这样的话,每一个组件都是一份不同的data
+                data: function () {
+                    return {
+                        arr: [{
+                            name: '学习html'
+                        }, {
+                            name: '学习css'
+                        }, {
+                            name: '学习Javascript'
+                        }]
+                    }
+                },
+                // 注意,组件只能包含一个根元素
+                template: `
+                    <div>
+                        <ul>
+                            <li v-for="a in arr" v-text="a.name"></li>
+                        </ul>
+                    </div>
+                    `
+            });
+
+            const vm = new Vue({
+                el: '#app',
+                data: {}
+            })
+
+        </script>
+    </body>
+
+</html>

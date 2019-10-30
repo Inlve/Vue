@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang = "zh" >
+<head >
+    <meta charset = "UTF-8" >
+    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
+    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
+    <title >绑定class</title >
+    <style >
+        .active{
+            color:#58c;
+            font-size: 21px;
+        }
+        .bg{
+            background: #58bc58;
+        }
+    </style >
+</head >
+<body >
+<div id="app">
+    <!--
+    对象写法
+    这样active这个class是否存在是取决于isActive的属性
+    为true,存在
+    -->
+    <input type = "button" value = "点击" @click="isActive=!isActive" />
+    <p :class="{active:isActive}">内容</p>
+
+    <!--数组的写法-->
+    <p :class="[c1,c2]">内容</p>
+
+    <!--数组写法和对象写法可以混用-->
+    <p :class="[{active:isActive},c2]">内容</p>
+</div>
+<!-- /#app -->
+
+<script src = "../vue.js" ></script >
+<script >
+    const vm = new Vue({
+        el:'#app',
+        data:{
+            isActive:false,
+            c1:'active',
+            c2:'bg'
+        }
+    })
+</script >
+</body >
+</html >

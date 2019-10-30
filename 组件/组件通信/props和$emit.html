@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>组件通信</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <!--
+            设置v-model事件来监听子组件传递的数据
+            绑定til属性为title,即将父组件的title数据传递给字组件
+            -->
+            <list v-model="msg" :til="title"></list>
+            <p v-text="msg"></p>
+        </div>
+        <!-- /#app -->
+
+        <script src="../../vue.min.js"></script>
+        <script>
+            Vue.config.devtools = true;
+
+            /**
+             * 一. `props`/`$emit`
+             * 父组件通过props的方式,向子组件传递数据
+             * 子组件通过$emit可以向父组件传递数据
+             */
+            Vue.component('list', {
+                // 接受父组件传递的数据,这里为til
+                props: ['til'],
+                data: function () {
+                    return {}
+                },
+                // 通过触发事件,$emit向父组件传递数据,$emit('事件名',传递的参数...)
+                template: `
+                    <div>
+                        <h3 v-text="til"></h3>
+                        <input type="text" @input="$emit('input',$event.target.value)" />
+                    </div>
+                    `
+            });
+
+            const vm = new Vue({
+                el: '#app',
+                data: {
+                    title: '我是父组件的数据',
+                    msg: ''
+                }
+            })
+
+        </script>
+    </body>
+
+</html>
