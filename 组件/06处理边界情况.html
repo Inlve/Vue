@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html lang = "zh" >
-<head >
-    <meta charset = "UTF-8" >
-    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
-    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
-    <title >06处理边界情况</title >
-</head >
-<body >
-<div id = "app" >
-    <!--通过`ref`为子组件赋予一个ID引用-->
-    <input type = "button" value = "$ref" @click = "ref" />
-    <com1 ref = "t1" ></com1 >
-</div >
-<!-- /#app -->
+<html lang="zh">
 
-<script src = "../vue.js" ></script >
-<script >
-    const com1 = Vue.component('com1', {
-        // 后代组件通过inject接受指定的方法
-        inject: ['pro'],
-        data () {
-            return {
-                msg: '这是子组件',
-                isShow: true
-            }
-        },
-        methods: {
-            root () {
-                // 访问到根实例,还能读取根实例的数据
-                console.log(this.$root.msg);
-                // 执行根实例的事件函数
-                this.$root.con();
-            },
-            parent () {
-                // 同样的$parent与$root类似
-                console.log(this.$parent.msg);
-                this.$parent.con();
-            }
-        },
-        template: `<div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>06处理边界情况</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <!--通过`ref`为子组件赋予一个ID引用-->
+            <input type="button" value="$ref" @click="ref" />
+            <com1 ref="t1"></com1>
+        </div>
+        <!-- /#app -->
+
+        <script src="../vue.js"></script>
+        <script>
+            const com1 = Vue.component('com1', {
+                // 后代组件通过inject接受指定的方法
+                inject: ['pro'],
+                data() {
+                    return {
+                        msg: '这是子组件',
+                        isShow: true
+                    }
+                },
+                methods: {
+                    root() {
+                        // 访问到根实例,还能读取根实例的数据
+                        console.log(this.$root.msg);
+                        // 执行根实例的事件函数
+                        this.$root.con();
+                    },
+                    parent() {
+                        // 同样的$parent与$root类似
+                        console.log(this.$parent.msg);
+                        this.$parent.con();
+                    }
+                },
+                template: `<div>
                 <h1>这是组件1</h1>
                 <p>通过provide/inject,来让后代组件调用方法 <input type="button" value="provide/inject" @click="pro" /></p>
                 <p>通过$root可以访问到根实例<input type="button" value="$root" @click="root" /></p>
@@ -48,29 +50,31 @@
                 <p v-show="isShow">文章11111111111111111111111111</p>
                 <p v-show="!isShow">文章22222222222222222222222222</p>
             </div>`
-    });
+            });
 
-    const vm = new Vue({
-        el: '#app',
-        data: {
-            msg: '这是根组件',
-        },
-        methods: {
-            con () {
-                console.log(this.msg);
-            },
-            ref () {
-                // 用$refs去访问ref应用的t1子组件
-                console.log(this.$refs.t1.msg);
-            },
-        },
-        // 使用`provide`允许我们指定提供给后代组件的方法
-        provide: {
-            pro(){
-                console.log('这是父组件提供的内容');
-            }
-        }
-    })
-</script >
-</body >
-</html >
+            const vm = new Vue({
+                el: '#app',
+                data: {
+                    msg: '这是根组件',
+                },
+                methods: {
+                    con() {
+                        console.log(this.msg);
+                    },
+                    ref() {
+                        // 用$refs去访问ref应用的t1子组件
+                        console.log(this.$refs.t1.msg);
+                    },
+                },
+                // 使用`provide`允许我们指定提供给后代组件的方法
+                provide: {
+                    pro() {
+                        console.log('这是父组件提供的内容');
+                    }
+                }
+            })
+
+        </script>
+    </body>
+
+</html>

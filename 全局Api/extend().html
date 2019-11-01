@@ -1,19 +1,52 @@
 <!DOCTYPE html>
-<html lang = "zh" >
-<head >
-    <meta charset = "UTF-8" >
-    <meta http-equiv = "Content-Type" content = "text/html;charset=UTF-8" />
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
-    <meta http-equiv = "X-UA-Compatible" content = "ie=edge" />
-    <title >extend()</title >
-</head >
-<body >
+<html lang="zh">
 
-<script src = "../vue.js" ></script >
-<script >
-    // extend() 拓展构造器
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>extend()</title>
+    </head>
 
+    <body>
+        <div id="app">
+        </div>
+        <div>
+            这是自定的ex标签:<ex></ex>
+            <ex></ex>
+        </div>
+        <div class="ex">第一个.ex</div>
+        <!-- /.ex -->
+        <div class="ex">第二个.ex</div>
+        <!-- /.ex -->
 
-</script >
-</body >
-</html >
+        <!-- /#app -->
+
+        <script src="../vue.js"></script>
+        <script>
+            // extend() 拓展构造器
+
+            // 创建构造器
+            const Profile = Vue.extend({
+                // data必须是函数
+                data() {
+                    return {
+                        msg: '这是extend拓展内容'
+                    }
+                },
+                template: '<p v-text="msg"></p>'
+            })
+
+            // 挂载,挂载在某个DOM元素上
+
+            new Profile().$mount('#app');
+            new Profile().$mount('ex');
+            // 如果有多个ex标签需要挂载多次,挂载一次,只会改变一个
+            new Profile().$mount('ex');
+            new Profile().$mount('.ex');
+
+        </script>
+    </body>
+
+</html>
